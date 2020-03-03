@@ -16,7 +16,20 @@ namespace BlazorEverywhere
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+          // CreateHostBuilder(args).Build().Run();
+
+          var config = new ConfigurationBuilder().AddCommandLine(args).Build();
+
+        var host = new WebHostBuilder()
+            .UseKestrel()
+            .UseConfiguration(config)
+            .UseContentRoot(Directory.GetCurrentDirectory())
+            .UseIISIntegration()
+            .UseStartup<Startup>()
+            .UseUrls("http://192.168.1.249:5001")
+            .Build();
+
+        host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -25,7 +38,7 @@ namespace BlazorEverywhere
                 {
                     webBuilder.UseStartup<Startup>()
                         .UseElectron(args);
-                      ;
+;
                 });
     }
 }
